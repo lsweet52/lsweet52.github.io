@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhangxf.mapper.EmpMapper">
+
+<!--    根据id删除员工-->
+    <delete id="deleteByIds">
+        delete from emp where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+<!--    查询所有员工-->
+    <select id="list" resultType="com.zhangxf.pojo.Emp">
+        select e.*, d.name as deptName from emp e left join dept d on e.dept_id = d.id
+            <where>
+                <if test="name != null and name != ''">
+                    e.name like concat('%',#{name},'%')
+                </if>
+                <if test="gender != null">
+                    and e.gender = #{gender}
+                </if>
+                <if test="begin != null and end != null">
+                    and e.entry_date between #{begin} and #{end}
+                </if>
+            </where>
+            order by e.update_time desc
+    </select>
+
+</mapper>
