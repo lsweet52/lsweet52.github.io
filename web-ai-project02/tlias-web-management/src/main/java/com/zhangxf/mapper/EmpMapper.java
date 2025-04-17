@@ -72,4 +72,10 @@ public interface EmpMapper {
      */
     @MapKey("name")
     List<Map> countEmpGenderData();
+
+    /**
+     * 查询所有员工
+     */
+    @Select("select * from emp")
+    List<Emp> findAllEmp();
 }
