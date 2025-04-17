@@ -5,14 +5,17 @@ import com.github.pagehelper.PageHelper;
 import com.zhangxf.mapper.ClazzMapper;
 import com.zhangxf.pojo.Clazz;
 import com.zhangxf.pojo.ClazzQueryParam;
+import com.zhangxf.pojo.Emp;
 import com.zhangxf.pojo.PageResult;
 import com.zhangxf.service.ClazzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -48,4 +51,34 @@ public class ClazzServiceImpl implements ClazzService {
         Page<Clazz> p = (Page<Clazz>) clazzList;
         return new PageResult<Clazz>(p.getTotal(), p.getResult());
     }
+
+    /**
+     * 新增班级
+     */
+    @Override
+    public void addClazz(Clazz clazz) {
+        clazz.setCreateTime(LocalDateTime.now());
+        clazz.setUpdateTime(LocalDateTime.now());
+        clazzMapper.addClazz(clazz);
+    }
+
+    /**
+     * 根据id查询班级
+     */
+    @Override
+    public Clazz findClazzById(Integer id) {
+        return clazzMapper.findClazzById(id);
+    }
+
+    /**
+     * 修改班级
+     */
+    @Override
+    public void updateClazz(Clazz clazz) {
+        //补全基础属性updateTIme
+        clazz.setUpdateTime(LocalDateTime.now());
+        clazzMapper.updateClazz(clazz);
+    }
+
+
 }
